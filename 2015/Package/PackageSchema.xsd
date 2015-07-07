@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2014-2015 (c) Liam McSherry <mcsherry.liam@gmail.com>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at:
+ 
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<xs:schema targetNamespace="http://zsnap.org/Schemata/2015/Package"
+           version="1.0.0"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:pkg="http://zsnap.org/Schemata/2015/Package">
+    <!--
+        The package tag describes the package that the releases are associated with.
+    -->
+    <xs:element name="package">
+        <xs:complexType>
+            <xs:sequence>
+                <!--
+                    Releases are the available versions of the package. Each release
+                    has a set of associated items of information that briefly describe
+                    the contents of the release.
+                -->
+                <xs:element name="release">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!--
+                                Modifiers provide additional information that isn't
+                                suitable for the version number. At the moment, these
+                                can indicate that:
+                                
+                                    - The release is an LTS (Long-Term Support) release,
+                                      and will be supported for a longer period than a
+                                      normal release.
+                                    - The release is Obsolete, has been superseded, and
+                                      is no longer recommended for use.
+                                      
+                                These, for example, are unsuitable for inclusion in the
+                                version number because being an LTS release doesn't affect
+                                compatibility, and the state of obsolescence may change
+                                after the release is made available, and a version
+                                number cannot be changed after release.
+                            -->
+                            <xs:element name="modifier" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:attribute name="type" use="required" type="pkg:Modifier"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <!--
+                                A short, human-friendly description of the release. This
+                                should briefly cover any changes and relevant news, but 
+                                shouldn't go into much detail.
+                            -->
+                            <xs:element name="description" maxOccurs="1">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:whiteSpace value="collapse"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <!--
+                                A list of the changes that were made in this release.
+                            -->
+                            <xs:element name="changes" maxOccurs="1">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <!--
+                                            Each change is represented by a <change> tag with
+                                            a type representing the kind of change and a short
+                                            description describing the change.
+                                        -->
+                                        <xs:element name="change" minOccurs="1" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="pkg:ChangeDescription">
+                                                        <xs:attribute name="type" type="pkg:ChangeItem"/>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <!-- 
+                            The release's version number. A semantic version. 
+                        -->
+                        <xs:attribute name="version" use="required" type="xs:string"/>
+                        <!-- 
+                            The date the release was made available. 
+                        -->
+                        <xs:attribute name="released" use="required" type="xs:date"/>
+                        <!-- 
+                            The location at which a download package can be found. 
+                        -->
+                        <xs:attribute name="download" use="required" type="xs:anyURI"/>
+                        <!-- 
+                            The location at which any release notes can be found. 
+                        -->
+                        <xs:attribute name="notes" use="optional" type="xs:anyURI"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <!-- 
+                The name of the package. Up to 32 characters long. 
+            -->
+            <xs:attribute name="name" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:whiteSpace value="collapse"/>
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="32"/>
+                        <xs:pattern value="[a-zA-Z0-9 ]+"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <!-- 
+                The package's website, if any. 
+            -->
+            <xs:attribute name="website" type="xs:anyURI" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!--
+        Definition for the various modifiers.
+    -->
+    <xs:simpleType name="Modifier">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LTS"/>
+            <xs:enumeration value="Obsolete"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--
+        Definition of the types of change in the changelog.
+    -->
+    <xs:simpleType name="ChangeItem">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Addition"/>
+            <xs:enumeration value="Removal"/>
+            <xs:enumeration value="Fix"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--
+        Definition of the description of a change in the changelog.
+    -->
+    <xs:simpleType name="ChangeDescription">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+            <xs:maxLength value="140"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
