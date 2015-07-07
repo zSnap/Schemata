@@ -31,7 +31,7 @@
                     has a set of associated items of information that briefly describe
                     the contents of the release.
                 -->
-                <xs:element name="release">
+                <xs:element name="release" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
                             <!--
