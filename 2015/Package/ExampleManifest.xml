@@ -1,55 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--
-    An example package version manifest. Uses the Ubuntu version history
-    as its source of information.
-    
-    Portions of this document are taken from the Ubuntu documentation
-    site. The licence for these portions can be found here:
-    
-        https://help.ubuntu.com/community/License
-        
-    This document, excluding the aforementioned portions, is released
-    into the public domain.
+    An example package version manifest. Uses the npm's version history
+    as it uses Semantic Versioning. Thus, portions of this document are
+    copyright the npm developers. Anything else is released into the
+    public domain.
 -->
-<pkg:package name="Ubuntu"
-             website="http://ubuntu.com"
+<pkg:package name="npm"
+             website="http://npmjs.com"
              xmlns:pkg="http://zsnap.org/Schemata/2015/Package">
-    <pkg:release version="12.04" released="2012-04-26"
-                 download="http://www.ubuntu.com/download/desktop"
-                 notes="https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes">
-        <pkg:modifier type="LTS"/>
-        <pkg:description>
-            Precise Pangolin (Ubuntu 12.04 LTS) is Ubuntu's 16th release, and
-            is the first release of 2012.
-        </pkg:description>
-        <pkg:changes>
-            <pkg:change type="Addition">Linux kernel upgraded to version 3.2.14.</pkg:change>
-            <pkg:change type="Addition">Software Centre now supports PayPal payments.</pkg:change>
-            <pkg:change type="Addition">Python updated to 2.7.3 and 3.2.3.</pkg:change>
-            
-            <pkg:change type="Removal">Python 2.6 is no longer available.</pkg:change>
-            <pkg:change type="Removal">IcedTea Java plugin no longer installed by default.</pkg:change>
-
-            <pkg:change type="Fix">kexec fixes for ARM have been backported from kernel 3.3-rc.1.</pkg:change>
-        </pkg:changes>
-    </pkg:release>
-    <pkg:release version="12.10" released="2012-10-18"
-                 download="http://www.ubuntu.com/download/desktop"
-                 notes="https://wiki.ubuntu.com/QuantalQuetzal/ReleaseNotes">
+    <pkg:release version="2.12.0" released="2015-06-19"
+                 download="https://github.com/npm/npm/releases/tag/v2.12.0">
         <pkg:modifier type="Obsolete"/>
         <pkg:description>
-            Quantal Quetzal (Ubuntu 12.10) is Ubuntu's 17th release, and is the second
-            release of 2012.
+            This is an example description because I couldn't find a
+            suitable release description.
         </pkg:description>
         <pkg:changes>
-            <pkg:change type="Addition">Support for UEFI Secure Boot added.</pkg:change>
-            <pkg:change type="Addition">Linux kernel upgraded to version 3.5.5.</pkg:change>
-
-            <pkg:change type="Removal">Jockey has been deprecated.</pkg:change>
-            <pkg:change type="Removal">migration-assistant has been deprecated.</pkg:change>
-            <pkg:change type="Removal">
-                OpenJDK 6 has been deprecated and removed in future versions.
+            <pkg:change type="Addition">
+                #8557 normalize-package-data@2.2.1: Allow UNLICENSED and SEE
+                LICENSE IN filename in "license" field of package.json.
             </pkg:change>
+            <pkg:change type="Fix">
+                #8548 Remove extraneous newline from npm view output,
+                making it easier to use in shell scripts.
+            </pkg:change>
+        </pkg:changes>
+    </pkg:release>
+    <pkg:release version="2.12.1" released="2015-06-26"
+                 download="https://github.com/npm/npm/releases/tag/v2.12.1"
+                 notes="https://github.com/npm/npm/releases/tag/v2.12.1">
+        <!-- Empty description for test purposes. -->
+        <pkg:description />
+        <pkg:changes>
+            <pkg:change type="Removal">This is a test removal.</pkg:change>
         </pkg:changes>
     </pkg:release>
 </pkg:package>
